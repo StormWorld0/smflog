@@ -1,5 +1,7 @@
-// -- https://github.com/StormWorld0/storm-framework
-// -- SMF License
+// -- https://github.com/StormWorld0/smflog
+// -- GPLv2 License
+// -- Author: zxelzy
+
 mod core;
 mod writer;
 mod converters;
