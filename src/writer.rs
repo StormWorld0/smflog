@@ -1,5 +1,7 @@
-// -- https://github.com/StormWorld0/storm-framework
-// -- SMF License
+// -- https://github.com/StormWorld0/smflog
+// -- GPLv2 License
+// -- Author: zxelzy
+
 use pyo3::prelude::*;
 use std::io::{self, Write};
 use crate::errors::{PrintError, PrintResult};
