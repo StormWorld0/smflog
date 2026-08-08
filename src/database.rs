@@ -8,7 +8,7 @@ use std::fs;
 use std::os::unix::fs::DirBuilderExt;
 use crate::errors::PrintResult;
 
-pub fn get_db_connection(py: Python<'_>) -> PrintResult<Connection> {
+pub fn get_db_connection(_py: Python<'_>) -> PrintResult<Connection> {
     // Ekstrak Path tmp
     // Linux/macOS: /tmp/ atau $TMPDIR
     // Windows: C:\Users\<User>\AppData\Local\Temp\
