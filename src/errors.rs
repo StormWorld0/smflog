@@ -1,5 +1,7 @@
-// -- https://github.com/StormWorld0/storm-framework
-// -- SMF License
+// -- https://github.com/StormWorld0/smflog
+// -- GPLv2 License
+// -- Author: zxelzy
+
 use pyo3::prelude::*;
 use pyo3::exceptions::{PyTypeError, PyValueError, PyOSError, PyRuntimeError}; 
 use std::fmt;
@@ -9,7 +11,7 @@ use rusqlite;
 pub enum PrintError {
     TypeError(String),
     ValueError(String),
-    IOError(std::io::Error), // Gunakan tipe asli std::io
+    IOError(std::io::Error),
     PythonError(PyErr),
     SqliteError(rusqlite::Error),
 }
