@@ -1,4 +1,4 @@
-// -- https://github.com/StormWorld0/smflog
+// -- https://github.com/StormWorld0/smlog
 // -- GPLv2 License
 // -- Author: zxelzy
 
