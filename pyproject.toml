@@ -1,5 +1,5 @@
 [project]
-name = "smflog"
+name = "smlog"
 version = "1.0.0"
 authors = [
     {name = "StormWorld0", email = "StormWorld0@proton.me"}
@@ -30,12 +30,12 @@ classifiers = [
 ]
 
 [project.urls]
-homepage = "https://github.com/StormWorld0/smflog"
-source = "https://github.com/StormWorld0/smflog/"
-issues = "https://github.com/StormWorld0/smflog/issues"
+homepage = "https://github.com/StormWorld0/smlog"
+source = "https://github.com/StormWorld0/smlog/"
+issues = "https://github.com/StormWorld0/smlog/issues"
 
 [tool.maturin]
-module-name = "smf"
+module-name = "sml"
 
 [build-system]
 requires = ["maturin>=1.14.1,<2"]
