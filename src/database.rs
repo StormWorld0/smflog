@@ -1,4 +1,7 @@
-// File: src/database.rs
+// -- https://github.com/StormWorld0/smflog
+// -- GPLv2 License
+// -- Author: zxelzy
+
 use pyo3::prelude::*;
 use rusqlite::Connection;
 use std::env;
