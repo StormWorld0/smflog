@@ -1,4 +1,4 @@
-// -- https://github.com/StormWorld0/smlog
+// -- https://github.com/StormWorld0/smflog
 // -- GPLv2 License
 // -- Author: zxelzy
 
@@ -17,10 +17,10 @@ pub fn get_db_connection(_py: Python<'_>) -> PrintResult<Connection> {
     // Windows: C:\Users\<User>\AppData\Local\Temp\
     let tmp_path = env::temp_dir();
 
-    // tmp/smlog/
-    let output_dir = tmp_path.join("smlog");
+    // tmp/smflog/
+    let output_dir = tmp_path.join("smflog");
 
-    // tmp/smlog/log.db    
+    // tmp/smflog/log.db    
     let file_path = output_dir.join("log.db");
 
     // Pre-flight check & Secure Directory Creation
