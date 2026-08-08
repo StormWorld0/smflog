@@ -53,7 +53,7 @@ fn printd(
 }
 
 #[pymodule]
-fn smf(m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn sml(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(printf, m)?)?;
     m.add_function(wrap_pyfunction!(printd, m)?)?;
     Ok(())
