@@ -1,0 +1,42 @@
+[project]
+name = "smflog"
+version = "1.0.0"
+authors = [
+    {name = "StormWorld0", email = "StormWorld0@proton.me"}
+]
+description = "Fast logging library written in Rust."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "GPL-0.2"}
+classifiers = [
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Natural Language :: Indonesia",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX",
+    "Operating System :: POSIX :: BSD",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: POSIX :: Windows",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: PyO3",
+]
+
+[project.urls]
+homepage = "https://github.com/StormWorld0/smflog"
+source = "https://github.com/StormWorld0/smflog/"
+issues = "https://github.com/StormWorld0/smflog/issues"
+
+[tool.maturin]
+module-name = "smf"
+
+[build-system]
+requires = ["maturin>=1.14.1,<2"]
+build-backend = "maturin"
