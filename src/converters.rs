@@ -1,30 +1,32 @@
-// -- https://github.com/StormWorld0/storm-framework
-// -- SMF License
+// -- https://github.com/StormWorld0/smflog
+// -- GPLv2 License
+// -- Author: zxelzy
+
 use pyo3::prelude::*;
 use pyo3::types::{PyString, PyBytes};
 use crate::errors::{PrintError, PrintResult};
 
-// 1. UBAH: Parameter menerima Bound object reference
+// Parameter menerima Bound object reference
 pub fn object_to_string(obj: &Bound<'_, PyAny>) -> PrintResult<String> {
-    // 1. Jalur Cepat (Fast-path): Jika objek secara native adalah PyString.
+    // Jalur Cepat (Fast-path): Jika objek secara native adalah PyString.
     // downcast() pada Bound akan mengembalikan Result<&Bound<'_, PyString>, DowncastError>.
     if let Ok(s) = obj.cast::<PyString>() {
         return Ok(s.to_string_lossy().into_owned());
     }
     
-    // 2. Handling None (Singleton)
+    // Handling None (Singleton)
     // is_none() sekarang beroperasi secara aman di atas Bound smart pointer.
     if obj.is_none() {
         return Ok("None".to_string());
     }
 
-    // 3. Handling Bytes (Bypass konversi encoding, inspeksi memori secara langsung)
+    // Handling Bytes (Bypass konversi encoding, inspeksi memori secara langsung)
     // as_bytes() meminjam pointer internal PyBytes langsung ke buffer C/Rust.
     if let Ok(b) = obj.cast::<PyBytes>() {
         return Ok(format!("b'{}'", escape_bytes(b.as_bytes())));
     }
     
-    // 4. Jalur Standar: FFI call ke slot __str__ atau __repr__ objek Python.
+    // Jalur Standar: FFI call ke slot __str__ atau __repr__ objek Python.
     // Method .str() dan .repr() sekarang mengalokasikan string baru di sisi Python
     // dan mengembalikannya terbungkus dalam Bound<'_, PyString>.
     match obj.str() {
@@ -46,7 +48,7 @@ pub fn object_to_string(obj: &Bound<'_, PyAny>) -> PrintResult<String> {
     }
 }
 
-// FUNGSI INI TIDAK BERUBAH: Operasi pure-Rust, nol intervensi FFI PyO3.
+// Operasi pure-Rust, nol intervensi FFI PyO3.
 fn escape_bytes(bytes: &[u8]) -> String {
     // Pre-allocate memori untuk mengurangi re-alokasi saat string tumbuh
     let mut result = String::with_capacity(bytes.len());
