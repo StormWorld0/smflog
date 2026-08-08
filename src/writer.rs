@@ -14,9 +14,13 @@ pub enum OutputDestination<'py> {
 
 impl<'py> OutputDestination<'py> {
     // 2. UBAH: Signature menerima referensi ke Bound object
-    pub fn from_py_object(obj: Option<&Bound<'py, PyAny>>, _py: Python<'py>) -> PrintResult<Self> {
+    pub fn from_py_object(obj: Option<&Bound<'py, PyAny>>, _py: Python<'py>, use_stderr: bool) -> PrintResult<Self> {
         match obj {
-            None => Ok(OutputDestination::Stdout),
+            None => if use_stderr {
+                Ok(OutputDestination::Stderr)
+            } else {
+                Ok(OutputDestination::Stdout)
+            }
             Some(o) => {
                 // Pengecekan atribut secara aman di dalam Bound context
                 if o.hasattr("write")? {
