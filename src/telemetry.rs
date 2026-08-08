@@ -1,4 +1,7 @@
-// File: src/telemetry.rs
+// -- https://github.com/StormWorld0/smflog
+// -- GPLv2 License
+// -- Author: zxelzy
+
 use pyo3::prelude::*;
 use std::time::{SystemTime, UNIX_EPOCH};
 use crate::converters::object_to_string;
@@ -11,7 +14,7 @@ pub fn execute_telemetry(
     objects: &[Bound<'_, PyAny>],
 ) -> PrintResult<()> {
     
-    // 1. LOGIKA PEMBELAHAN BLOK (Label vs Payload)
+    // LOGIKA PEMBELAHAN BLOK (Label vs Payload)
     let label_str = if objects.is_empty() {
         String::new() // Antisipasi jika user memanggil smf.printd() kosong
     } else {
@@ -30,13 +33,13 @@ pub fn execute_telemetry(
         String::new() // Kosongkan jika tidak ada data tambahan
     };
 
-    // 2. Ekstrak Waktu
+    // Ekstrak Waktu
     let timestamp = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .unwrap()
         .as_secs_f64();
 
-    // 3. FFI Traceback Caller
+    // FFI Traceback Caller
     let caller_info = match py.import("sys").and_then(|sys| sys.getattr("_getframe")) {
         Ok(getframe) => {
             if let Ok(frame) = getframe.call1((1,)) {
@@ -56,7 +59,7 @@ pub fn execute_telemetry(
         Err(_) => "SysModuleError".to_string(),
     };
 
-    // 2. Mengambil Traceback jika ada Exception aktif
+    // Mengambil Traceback jika ada Exception aktif
     let traceback_info = match py.import("traceback").and_then(|tb| tb.getattr("format_exc")) {
         Ok(format_exc) => {
             if let Ok(tb_obj) = format_exc.call0() {
@@ -74,10 +77,10 @@ pub fn execute_telemetry(
         Err(_) => String::new(),
     };
 
-    // 4. Inisialisasi Database
+    // Inisialisasi Database
     let conn = get_db_connection(py)?;
 
-    // 5. Injeksi ke Database Terstruktur
+    // Injeksi ke Database Terstruktur
     // Masukkan label_str dan payload_str secara terpisah
     let _ = insert_log(&conn, timestamp, level, &label_str, &payload_str, &traceback_info, &caller_info);
 
