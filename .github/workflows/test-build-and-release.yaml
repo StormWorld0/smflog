@@ -15,7 +15,6 @@ jobs:
   build:
     name: Compilation & Artifact Generation (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    # Postur Keamanan: Least Privilege untuk fase build murni
     permissions:
       contents: read
     strategy:
@@ -45,11 +44,11 @@ jobs:
       - name: Install PEP 517 Build Frontend
         run: python -m pip install --upgrade pip build
 
-      # Generate sdist (.tar.gz) dan wheels (.whl)
+      # Generate sdist (.tar.gz) and wheels (.whl)
       - name: Build via pyproject.toml
         run: python -m build
 
-      # Ekspor artifact dari container runner untuk diakumulasi di job publish
+      # Export artifacts from container runner
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -59,23 +58,19 @@ jobs:
   publish:
     name: Publish to PyPI
     needs: build
-    # Gatekeeper: Job ini HANYA berjalan jika dipicu oleh Git Tag
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     
-    # Postur Keamanan: OIDC Identity Federation (Trusted Publishing)
-    # Memerlukan 'id-token: write' agar GitHub dapat merequest ephemeral token ke PyPI
     permissions:
       id-token: write 
       contents: read
       
-    # Opsional namun direkomendasikan: Mengikat eksekusi ke environment GitHub
+    # Binding execution to the GitHub environment
     environment:
       name: pypi
-      url: https://pypi.org/p/smflog # TODO: Ubah dengan nama paket riil
+      url: https://pypi.org/p/smflog
 
     steps:
-      # Mengunduh dan menggabungkan semua wheels dan sdist dari matrix build
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -83,7 +78,6 @@ jobs:
           pattern: pypi-artifacts-*
           merge-multiple: true
 
-      # Otorisasi OIDC menggunakan official PyPA GitHub Action
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         
