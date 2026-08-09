@@ -1,6 +1,6 @@
 [project]
 name = "smflog"
-version = "1.0.1"
+version = "1.0.0"
 organization = [
     {name = "StormWorld0", email = "StormWorld0@proton.me"}
 ]
