@@ -1,6 +1,6 @@
 [project]
 name = "smflog"
-version = "1.0.3"
+version = "1.0.4"
 authors = [
     {name = "StormWorld0", email = "StormWorld0@proton.me"}
 ]
