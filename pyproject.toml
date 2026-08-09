@@ -1,6 +1,6 @@
 [project]
 name = "smflog"
-version = "1.0.0"
+version = "1.0.1"
 organization = [
     {name = "StormWorld0", email = "StormWorld0@proton.me"}
 ]
@@ -14,7 +14,7 @@ license = {text = "GPL-0.2"}
 classifiers = [
     "Intended Audience :: Developers",
     "Natural Language :: English",
-    "Natural Language :: Indonesia",
+    "Natural Language :: Indonesian",
     "Operating System :: MacOS :: MacOS X",
     "Operating System :: POSIX",
     "Operating System :: POSIX :: BSD",
