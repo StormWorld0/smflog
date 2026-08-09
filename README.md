@@ -40,7 +40,7 @@
 
 ```bash
 # Pip install via wheel binary (Rust Toolchain required if building from source)
-pip install smf
+pip install smflog
 ```
 
 ---
