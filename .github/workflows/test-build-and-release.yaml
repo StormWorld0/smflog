@@ -75,6 +75,21 @@ jobs:
         
       - name: Build wheel
         run: python -m build --wheel
+
+      - name: Audit and Repair Linux Wheels (PEP 600 Compliance)
+        if: runner.os == 'Linux'
+        run: |
+          # Install system dependencies for ELF manipulation
+          sudo apt-get update && sudo apt-get install -y patchelf
+          python -m pip install auditwheel
+          
+          # Audit whl generated
+          auditwheel repair dist/*.whl --wheel-dir dist/repaired
+          
+          # Remove wheel (linux_x86_64)
+          rm dist/*.whl
+          mv dist/repaired/*.whl dist/
+          rm -rf dist/repaired
         
       - name: Upload wheel artifacts
         uses: actions/upload-artifact@v4
