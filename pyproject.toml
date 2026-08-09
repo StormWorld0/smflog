@@ -1,8 +1,11 @@
 [project]
 name = "smflog"
 version = "1.0.0"
-authors = [
+organization = [
     {name = "StormWorld0", email = "StormWorld0@proton.me"}
+]
+author = [
+    {name = "zxelzy", email = "elzyproot@protonmail.com"}
 ]
 description = "Fast logging library written in Rust."
 readme = "README.md"
@@ -28,11 +31,14 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: Implementation :: PyO3",
 ]
+keywords=["python", "rust", "pyo3", "sqlite", "ffi", "developer-tools", "high-performance", "debugging", "logger", "logging"]
 
 [project.urls]
 homepage = "https://github.com/StormWorld0/smflog"
-source = "https://github.com/StormWorld0/smflog/"
+documentation = "https://github.com/StormWorld0/smflog/tree/main/README.md"
+source = "https://github.com/StormWorld0/smflog"
 issues = "https://github.com/StormWorld0/smflog/issues"
+discussion = "https://github.com/orgs/StormWorld0/discussions"
 
 [tool.maturin]
 module-name = "smf"
