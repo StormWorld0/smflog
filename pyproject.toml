@@ -27,7 +27,11 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
 ]
-keywords = ["python", "rust", "pyo3", "sqlite", "ffi", "developer-tools", "high-performance", "debugging", "logger", "logging"]
+keywords = [
+    "python", "rust", "pyo3", "sqlite", "ffi",
+    "developer-tools", "high-performance", "debugging", 
+    "logger", "logging",
+]
 
 [project.urls]
 homepage = "https://github.com/StormWorld0/smflog"
