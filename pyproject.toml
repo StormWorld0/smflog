@@ -4,7 +4,7 @@ version = "1.0.6"
 authors = [
     {name = "StormWorld0", email = "StormWorld0@proton.me"}
 ]
-description = "Fast logging library written in Rust."
+description = "Fast logging library for Cloud Data Center (Microservices/Serverless)"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "GPL-2.0-only"
