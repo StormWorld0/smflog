@@ -33,6 +33,7 @@
 
 1. **Overhead & Speed:** Reduces I/O interrupt overhead on massive log execution by moving the formatting and text writing process to the Rust native runtime.
 2. **Crash & Traceback Capture:** `smf.printd` automatically extracts stack traces and variable metadata when catching exceptions, saving them to a structured SQLite table.
+3. **Custom design:** Built on the basis of modern industrial standards in sensitive environments such as **Cloud Data Center (Microservices/Serverless)**.
 
 ---
 
