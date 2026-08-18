@@ -31,7 +31,7 @@
 
 ## Technical Performance Highlights
 
-1. **Overhead & Speed:** Reduces I/O interrupt overhead on massive log execution by moving the formatting and text writing process to the Rust native runtime.
+1. **Overhead & Speed:** Reduces I/O interrupt overhead on large log executions by moving the text formatting and writing process to the native Rust runtime. Almost completely Zero-Copy.
 2. **Crash & Traceback Capture:** `smf.printd` automatically extracts stack traces and variable metadata when catching exceptions, saving them to a structured SQLite table.
 3. **Custom design:** Built on the basis of modern industrial standards in sensitive environments such as **Cloud Data Center (Microservices/Serverless)**.
 
@@ -150,8 +150,9 @@ CREATE TABLE IF NOT EXISTS system_logs (
     level TEXT,
     label TEXT,
     payload TEXT,
-    traceback TEXT,
-    caller_info TEXT
+    caller TEXT,
+    location TEXT,
+    traceback TEXT
 );",
 ```
 
@@ -165,9 +166,9 @@ Log data is stored in the OS temporary database with the following schema:
 | level | TEXT | Log severity (DEBUG, INFO, ERROR, WARN) |
 | label | TEXT | Taken from the first string |
 | payload | TEXT | Argument fusion result string |
+| caller | TEXT | Error script caller location, line number & function |
+| location | TEXT | The exact location of the error, line number & function |
 | traceback | TEXT | Captured Python exception stack trace (If there are) |
-| caller_info | TEXT | Location of the script caller that caused the error |
-
 ---
 
 ## License
