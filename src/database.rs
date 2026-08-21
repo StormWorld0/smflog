@@ -6,29 +6,16 @@ use pyo3::prelude::*;
 use rusqlite::Connection;
 use std::env;
 use std::fs;
+use crate::path::log_dir;
 
 #[cfg(unix)]
-use std::os::unix::fs::DirBuilderExt;
 use crate::errors::PrintResult;
 
 pub fn get_db_connection(_py: Python<'_>) -> PrintResult<Connection> {
-    // Extract Path tmp
-    // Linux/macOS: /tmp/ atau $TMPDIR
-    // Windows: C:\Users\<User>\AppData\Local\Temp\
-    let tmp_path = env::temp_dir();
-    let output_dir = tmp_path.join("smflog");
-    let file_path = output_dir.join("log.db");
-
-    // Pre-flight check & Secure Directory Creation
-    if !output_dir.exists() {
-        let mut builder = fs::DirBuilder::new();
-        builder.recursive(true);
-        
-        // Permission (rwx------)
-        #[cfg(unix)]
-        builder.mode(0o700); 
-        builder.create(&output_dir)?;
-    }
+    // Extract Path log
+    let log_path = log_dir("smflog")?;
+    let file_path = log_path.join("log.db");
+    
     // Open SQLite Connection (Automatically create log.db file if it doesn't exist)
     // ? operator here will be thrown as SqliteError to PrintResult
     let conn = Connection::open(file_path)?;
