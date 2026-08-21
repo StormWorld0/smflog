@@ -1,6 +1,7 @@
 [package]
 name        = "smflog"
 version     = "1.0.0"
+edition     = "2024"
 authors     = ["zxelzy <elzyproot@protonmail.com>"]
 description = "A Python logging extension built to handle massive log volumes without compromise, with high-speed terminal output separated from structured SQLite debug caching."
 readme      = "README.md"
