@@ -8,6 +8,7 @@ mod converters;
 mod errors;
 mod database;
 mod telemetry;
+mod path;
 
 use pyo3::prelude::*;
 use pyo3::types::{PyModule, PyTuple};
