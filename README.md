@@ -21,7 +21,7 @@
 
 **Zero-Lag Terminal I/O (`smf.printf`):** Replaces Python's built-in I/O mechanism with Rust FFI bindings optimized for executing large logs without triggering I/O bottlenecks.
 
-**Silent SQLite Storage (`smf.printd`):** Isolates debugging logs and error tracebacks directly to a structured SQLite database in the OS `/tmp` directory without filling up the terminal stdout buffer.
+**Silent SQLite Storage (`smf.printd`):** Isolates debugging logs and error tracebacks directly to a structured SQLite database in the OS `state` directory without filling up the terminal stdout buffer.
 
 **Native Type Ingestion:** The FFI layer handles Python data type conversion to Rust strings directly (`PyBytes`, `NoneType`, and custom classes via slots `__str__`).
 
@@ -40,7 +40,6 @@
 ## Installation
 
 ```bash
-# Pip install via wheel binary (Rust Toolchain required if building from source)
 pip install smflog
 ```
 
@@ -82,7 +81,7 @@ smf.printf("Custom Class:", CustomObject())
 ```
 
 3. **Isolated SQLite Debug Logging (smf.printd)**  
-Save debug state and traceback to SQLite in OS temporary directory (`/tmp`):
+Save debug state and traceback to SQLite in OS temporary directory (`state`):
 ```python
 try:
     result = 10 / 0
@@ -119,7 +118,9 @@ except Exception as e:
   |         +---------+----------+             +---------+----------+         |
   +-------------------|----------------------------------|--------------------+
                       v                                  v
-               System Terminal                 OS /tmp/smflog/log.db (0o700)
+               System Terminal     Linux: $HOME/.local/state/smflog/log.db (0o700)
+                                 Windows: C:\Users\<User>\AppData\Local\smflog\log.db
+                                   MacOS: ~/Library/Logs/smflog/log.db (0o700)
 ```
 
 1. **PyO3 Type Ingestion & FFI Conversion**  
@@ -130,7 +131,7 @@ Crucial points in performance `smflog` is how Python data types are converted to
 
 2. **Lock & Thread Safety Design**  
 - `smf.printf`: Minimize reading duration GIL (Global Interpreter Lock). Concatenated string formatting (string concatenation) performed in the Rust thread layer before being executed to standard output.
-- `smf.printd`: Use **SQLite Write-Ahead Logging (WAL) Mode** which is stored in the OS's built-in temporary directory (`/tmp` or `%TEMP%`). Log writing is done in a thread-safe manner using an isolated connection pool to avoid database locked concerns when logs are sent in parallel/massively.
+- `smf.printd`: Use **SQLite Write-Ahead Logging (WAL) Mode** which is stored in the OS's built-in temporary directory (`state` or `%Logs%`). Log writing is done in a thread-safe manner using an isolated connection pool to avoid database locked concerns when logs are sent in parallel/massively.
 
 ---
 
