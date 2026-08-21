@@ -1,3 +1,7 @@
+// -- https://github.com/StormWorld0/smflog
+// -- https://pypi.org/project/smflog
+// -- GPLv2 License
+// -- Author: zxelzy
 use dirs;
 use std::fs;
 use std::io::{Error, ErrorKind};
@@ -7,7 +11,7 @@ use std::path::PathBuf;
 use std::os::unix::fs::DirBuilderExt;
 use crate::errors::PrintResult; 
 
-pub fn resolve_log_dir(app_name: &str) -> PrintResult<PathBuf> {
+pub fn log_dir(app_name: &str) -> PrintResult<PathBuf> {
     let mut base_path = if cfg!(target_os = "macos") {
         // MacOS: ~/Library/Logs
         dirs::home_dir()
