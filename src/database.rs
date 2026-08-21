@@ -4,8 +4,6 @@
 // -- Author: zxelzy
 use pyo3::prelude::*;
 use rusqlite::Connection;
-
-#[cfg(unix)]
 use crate::errors::PrintResult;
 use crate::path::log_dir;
 
