@@ -4,12 +4,10 @@
 // -- Author: zxelzy
 use pyo3::prelude::*;
 use rusqlite::Connection;
-use std::env;
-use std::fs;
-use crate::path::log_dir;
 
 #[cfg(unix)]
 use crate::errors::PrintResult;
+use crate::path::log_dir;
 
 pub fn get_db_connection(_py: Python<'_>) -> PrintResult<Connection> {
     // Extract Path log
