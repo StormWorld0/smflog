@@ -20,7 +20,7 @@ pub fn log_dir(app_name: &str) -> PrintResult<PathBuf> {
     } else if cfg!(target_os = "windows") {
         // Windows: C:\Users\<User>\AppData\Local\<app_name>\Logs
         dirs::data_local_dir()
-            .ok_or_else(|| Error::new(ErrorKind::NotFound, "Windows environment: LOCALAPPDATA not found"))?;
+            .ok_or_else(|| Error::new(ErrorKind::NotFound, "Windows environment: LOCALAPPDATA not found"))?
     } else {
         // Linux/Unix: XDG_STATE_HOME fallback ke ~/.local/share
         dirs::state_dir()
