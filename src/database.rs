@@ -2,6 +2,7 @@
 // -- https://pypi.org/project/smflog
 // -- GPLv2 License
 // -- Author: zxelzy
+use std::fs;
 use pyo3::prelude::*;
 use rusqlite::Connection;
 use crate::errors::PrintResult;
@@ -11,6 +12,11 @@ pub fn get_db_connection(_py: Python<'_>) -> PrintResult<Connection> {
     // Extract Path log
     let log_path = log_dir("smflog")?;
     let file_path = log_path.join("log.db");
+
+    // Ensure Directory is Available (Pre-flight check)
+    if !log_path.exists() {
+        fs::create_dir_all(&log_path)?;
+    }
     
     // Open SQLite Connection (Automatically create log.db file if it doesn't exist)
     // ? operator here will be thrown as SqliteError to PrintResult
@@ -32,7 +38,9 @@ pub fn get_db_connection(_py: Python<'_>) -> PrintResult<Connection> {
              caller TEXT,
              location TEXT,
              traceback TEXT
-         );",
+         );
+         CREATE INDEX IF NOT EXISTS idx_system_logs_timestamp ON system_logs(timestamp);
+         ",
     )?;
     
     Ok(conn)
@@ -48,7 +56,9 @@ pub fn insert_log(
     location: &str,
     traceback: &str
 ) -> PrintResult<()> {
-    conn.execute(
+    let tx = conn.unchecked_transaction()?;
+    
+    tx.execute(
         "INSERT INTO system_logs (timestamp, level, label, payload, caller, location, traceback) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
         (timestamp, level, label, payload, caller, location, traceback),
     )?;
@@ -56,19 +66,20 @@ pub fn insert_log(
     let should_cleanup = rand::random::<u8>() < 3; // Probability ~1%
 
     if should_cleanup {
-        let retention_period = 3 * 24 * 60 * 60; // 3 Hari
+        let retention_seconds = (3 * 24 * 60 * 60) as f64; // 3 Day
+        let cutoff_timestamp = timestamp - retention_seconds;
         
         // Delete by time
-        conn.execute(
+        tx.execute(
             "DELETE FROM system_logs
-             WHERE timestamp < (strftime('%s','now') - ?1)",
-            [retention_period],
+             WHERE timestamp < ?1",
+            [cutoff_timestamp],
         )?;
 
         // Delete based on maximum limit of 10,000 rows
         // Using OFFSET on Primary Key index (O(1)) 
         // much faster than calculating COUNT(*)
-        conn.execute(
+        tx.execute(
             "DELETE FROM system_logs 
              WHERE id <= (
                  SELECT id FROM system_logs 
@@ -79,5 +90,6 @@ pub fn insert_log(
         )?;
     }
 
+    tx.commit()?;
     Ok(())
 }
